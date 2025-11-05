@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+.DS_Store
+worktime/apps/mobile/.expo/
+worktime/apps/mobile/android/
+worktime/apps/mobile/ios/
+worktime/apps/mobile/web-build/

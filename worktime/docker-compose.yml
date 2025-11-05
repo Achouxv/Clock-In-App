@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: worktime
+      POSTGRES_USER: worktime
+      POSTGRES_PASSWORD: worktime
+    ports:
+      - "5432:5432"
+    volumes:
+      - worktime-db-data:/var/lib/postgresql/data
+
+volumes:
+  worktime-db-data:

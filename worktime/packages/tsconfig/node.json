@@ -1,0 +1,11 @@
+{
+  "extends": "./base.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "dist",
+    "sourceMap": true,
+    "noEmit": false
+  },
+  "exclude": ["node_modules", "dist"],
+  "include": ["../../apps/api/src/**/*", "../../packages/config/src/**/*"]
+}
