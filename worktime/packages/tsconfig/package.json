@@ -1,0 +1,10 @@
+{
+  "name": "@worktime/tsconfig",
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "base.json",
+    "node.json",
+    "react-native.json"
+  ]
+}
