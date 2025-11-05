@@ -5,13 +5,12 @@ A cross-platform time tracking workspace for stand-building crews. The monorepo 
 ## Repository Structure
 
 ```
-worktime/
-  apps/
-    api/        # NestJS backend
-    mobile/     # Expo mobile application
-  packages/
-    config/     # Shared constants and helpers
-    tsconfig/   # Shared TypeScript configurations
+apps/
+  api/        # NestJS backend
+  mobile/     # Expo mobile application
+packages/
+  config/     # Shared constants and helpers
+  tsconfig/   # Shared TypeScript configurations
 ```
 
 ## Prerequisites
@@ -73,8 +72,8 @@ worktime/
    You can also run each individually:
 
    ```bash
-   npm run start:dev --workspace=apps/api
-   npm run start --workspace=apps/mobile
+   npm run dev:api
+   npm run dev:mobile
    ```
 
 ## Additional Scripts
@@ -85,6 +84,17 @@ worktime/
 - `npm run migration:run --workspace=apps/api` – apply migrations.
 - `npm run test --workspace=apps/api` – execute unit tests.
 - `npm run test:e2e --workspace=apps/api` – execute end-to-end tests.
+
+## Render Deployment
+
+This repository includes a [`render.yaml`](render.yaml) blueprint to provision the API on [Render](https://render.com/).
+
+1. Push your fork to GitHub.
+2. Create a new Render Blueprint deployment and reference the repository.
+3. Render will execute `npm install` followed by `npm run build --workspace=apps/api` during the build step.
+4. The service runs `npm run start --workspace=apps/api`, which starts the compiled NestJS server on the configured port (Render injects `PORT`).
+
+Update the environment variables in Render to match your database credentials; see the table above for supported keys.
 
 ## Shared Configuration Package
 

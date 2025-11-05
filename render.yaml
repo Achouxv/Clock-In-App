@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: worktime-api
+    env: node
+    rootDir: .
+    buildCommand: npm install && npm run build --workspace=apps/api
+    startCommand: npm run start --workspace=apps/api
+    envVars:
+      - key: NODE_VERSION
+        value: 18
