@@ -7,7 +7,12 @@
     "packages/*"
   ],
   "scripts": {
+    "build": "npm run build --workspace=apps/api",
+    "start": "npm run start --workspace=apps/api",
+    "start:api": "npm run start --workspace=apps/api",
     "dev": "concurrently \"npm run start:dev --workspace=apps/api\" \"npm run start --workspace=apps/mobile\"",
+    "dev:api": "npm run start:dev --workspace=apps/api",
+    "dev:mobile": "npm run start --workspace=apps/mobile",
     "db:up": "docker compose up -d db",
     "db:down": "docker compose down",
     "db:reset": "npm run db:down && npm run db:up"

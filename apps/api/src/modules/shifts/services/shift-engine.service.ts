@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { RawClockType } from '../../../entities/raw-clock.entity';
-import { Shift } from '../../../entities/shift.entity';
 import { JobSite } from '../../../entities/job-site.entity';
 import { LUNCH_WINDOW, DINNER_WINDOW } from '@worktime/config/src/time';
 import {
@@ -18,7 +17,13 @@ export interface RawClockEventLike {
   jobSiteId?: string | null;
 }
 
-export interface ComputedShift extends Pick<Shift, 'start' | 'end' | 'durationMinutes' | 'allowances'> {
+export type ShiftAllowances = Partial<Record<'lunch' | 'dinner' | 'foreign_daily', number>>;
+
+export interface ComputedShift {
+  start: Date;
+  end: Date;
+  durationMinutes: number;
+  allowances: ShiftAllowances;
   sourceEventIds: string[];
   isIncomplete: boolean;
   travelHours: number;
@@ -156,9 +161,14 @@ export function buildShifts(context: ShiftEngineContext): ComputedShift[] {
       sourceEventIds.push(event.id);
     }
     if (outIndex >= 0) {
-      end = events[outIndex].timestamp;
-      if (events[outIndex].id) {
-        sourceEventIds.push(events[outIndex].id);
+      const outEvent = events[outIndex];
+      if (outEvent) {
+        end = outEvent.timestamp;
+        if (outEvent.id) {
+          sourceEventIds.push(outEvent.id);
+        }
+      } else {
+        isIncomplete = true;
       }
     } else {
       isIncomplete = true;
@@ -177,7 +187,7 @@ export function buildShifts(context: ShiftEngineContext): ComputedShift[] {
       previous.anomalies = Array.from(new Set([...previous.anomalies, 'overlap']));
     }
 
-    const allowances: Record<string, number> = {};
+    const allowances: ShiftAllowances = {};
     let isTrasferta = false;
     if (jobSite.country !== 'Italy') {
       allowances.foreign_daily = 1;
